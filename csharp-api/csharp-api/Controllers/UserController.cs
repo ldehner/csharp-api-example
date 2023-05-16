@@ -2,19 +2,28 @@ using csharp_api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace csharp_api.Controllers;
-
-public class UserController : Controller
+[ApiController]
+[Route("")]
+public class UserController : ControllerBase
 {
-    [HttpGet(Name = "user")]
-    public IEnumerable<ResponseUser> Get()
+    [HttpGet("user/{id}")]
+    public ResponseUser Get(string id)
     {
-        return new ResponseUser();
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        Console.WriteLine(id);
+        return new Bl().UserGetBl(new RequestUser(){Id = id});
+    }
+    
+    [HttpPost("user")]
+    public ResponseUser Post(RequestUser user)
+    {
+        Console.WriteLine("test");
+        return new Bl().UserPostBl(user);
+    }
+    
+    [HttpPut("user/{id}")]
+    public ResponseUser Put(string id, RequestUser user)
+    {
+        Console.WriteLine(id);
+        return new Bl().UserPutBl(user);
     }
 }
